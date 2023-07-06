@@ -52,11 +52,11 @@ const onSubmit = async (e) => {
             left: "0%",
             right:"0%",
             bottom: "0%",
-            backgroundColor: "opacity",
+            backgroundColor: "#00000078",
             zIndex: 100,
         },
     }}
-    className="absolute top-[100px] mx-4 rounded-[5px] lg:top-auto mt-[30vh] left-0 lg:left-[32%] lg:right-[35%] justify-between right-0 h-auto pb-12 overflow-y-auto overflow-auto bg-black z-50 outline-none border-0 flex flex-col shadow-[5px_5px_30px_0px #00000040]"
+    className="absolute top-[100px] mx-4 rounded-[5px] lg:top-auto mt-[10vh] left-0 lg:left-[32%] lg:right-[35%] justify-between right-0 h-auto pb-12 overflow-y-auto overflow-auto bg-black z-50 outline-none border-0 flex flex-col shadow-[5px_5px_30px_0px #00000040]"
     isOpen={isOpen}
     shouldCloseOnOverlayclick={true}
     onRequestClose={toggle}
@@ -76,6 +76,14 @@ const onSubmit = async (e) => {
              onChange={onChangeHandler}
                placeholder=""
                 />  <br />
+
+             <input type="text"
+             id="lastName"
+             className=" bg-black w-[90%] h-[11%] mx-9 m-3 rounded-[8px] px-2 gap-[10rem] text-slate-400  border-blue-400 border-4"
+             onChange={onChangeHandler}
+               placeholder=""
+                />  <br />
+
             <input type="email"
              id="email"
              value={input.email}

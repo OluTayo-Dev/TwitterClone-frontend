@@ -7,35 +7,42 @@ import axios from "axios";
 
 export default function FormTwo({isOpen, toggle}) {
   const [modal,setModal] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("")
 
+  const navigate = useNavigate();
 
-
+ 
+ 
   const openModal = () =>{
     setModal(true);
   };
   const closeModal = () =>{
     setModal(false);
   };
-    const [input, setInput] = useState({
-      firstName: "",
-      email: "",
-      password: "",
-    }) 
-
-    const navigate = useNavigate();
-
-const onChangeHandler = (e) =>{
-    setInput({...input, [e.target.id]: e.target.value});
+    
+  
+const onChangeEmail = (e) =>{
+    setEmail(e.target.value);
 };
+const onChangePassword = (e) => {
+  setPassword(e.target.value);
+}
 
 const onSubmit = async (e) => {
     e.preventDefault();
+
+    const data={
+      email : email,
+      password : password,
+    };
+
     try{
-      await axios.post("http://localhost:8000/api/register", input)
+      await axios.post("http://localhost:8000/api/login", data)
       .then((res) =>{
         console.log(res.data)
         navigate("/Hom")
-        alert("User registered successfully");
+        alert("Login successful!!");
       })
     } catch (err) {
       console.log(err);
@@ -53,7 +60,7 @@ const onSubmit = async (e) => {
             left: "0%",
             right:"0%",
             bottom: "0%",
-            backgroundColor: "opacity",
+            backgroundColor: "#00000078",
             zIndex: 100,
         },
     }}
@@ -72,18 +79,16 @@ const onSubmit = async (e) => {
             <GrTwitter className=" text-white ml-[13rem] w-[4vw] h-[4vh]" />
             <h1 className="text-white font-bold text-center text-[25px]">Login</h1>
             <input type="email"
-             id="email"
-             value={input.email}
+             value={email}
+         
              className=" bg-black w-[90%] h-[11%]  mx-9 m-3 rounded-[8px] px-2 text-slate-400  border-blue-400 border-4"
-             onChange={onChangeHandler}
+             onChange={onChangeEmail}
               placeholder="Email" 
               /> <br />
-
               <input type="password" 
               placeholder="password" 
-              id="password"
-              value={input.password}
-              onChange={onChangeHandler}
+              value={password}
+              onChange={onChangePassword}
               className="bg-black w-[90%] h-[11%] mx-9 m-3 rounded-[8px] px-2 text-slate-400 border-blue-400 border-4"
               />  <br />
    

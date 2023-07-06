@@ -37,7 +37,7 @@ export default function Homepage() {
       .then((res) =>{
         console.log(res.data)
         setInput(res.data)
-        navigate("/Home")
+        navigate("Home")
         alert("User registered successfully");
       });
     } catch (err) {
@@ -50,7 +50,7 @@ export default function Homepage() {
   return (
     <div>
       <div className="flex w-full bg-black">
-        <div className="w-[25%]">
+        <div className="w-[25%]  sticky top-0 h-[100vh]">
             <div className="py-5 gap-3 ml-[3rem]">
                <TfiTwitterAlt  className="text-white w-[2rem] h-[2rem] m-[10px]"/>
                <span className="flex">
@@ -65,9 +65,9 @@ export default function Homepage() {
         </div>
         <div className="w-[40%] border-slate-300 border-2 border-t-black cursor-pointer">
           <header className="sticky bg-black w-full h-10">
-            <span className="flex">
-              <p className="text-white font-bold text-[25px] p-5">Explore</p>
-              <FiSettings className="text-white w-[1.5rem] h-[1.5rem] ml-[31rem] mt-4" />
+            <span className="flex justify-between">
+              <p className="text-white font-bold text-[25px] p-2 ">Explore</p>
+              <FiSettings className="text-white w-[1.5rem] h-[1.5rem] mr-2 mt-4" />
             </span>
           </header>
             <span className="flex mt-5 gap-1">
