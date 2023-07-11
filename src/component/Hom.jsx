@@ -1,5 +1,7 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 //import Form from './Form';
+import Modal from "react-modal";
+import axios from "axios";
 import profile from "../Asset/profile.png";
 import {TfiTwitterAlt} from 'react-icons/tfi';
 import {BiHomeCircle} from 'react-icons/bi';
@@ -11,10 +13,60 @@ import {PiBookmarkSimple} from 'react-icons/pi';
 import {VscVerified} from 'react-icons/vsc';
 import {CgProfile} from 'react-icons/cg';
 import {CiCircleMore} from 'react-icons/ci';
+import {MdOutlineKeyboardArrowDown} from "react-icons/md";
+import {AiFillCodepenCircle} from "react-icons/ai";
+import {RiGroup2Fill} from "react-icons/ri";
 
  function Hom() {
-    const [input, setInput] = useState("");
+    const [tweets, setTweets] = useState(null);
+    const [modal, setModal] = useState(false);
+    const [input, setInput] = useState({
+        tweet:"",})
 
+    const openModal = () => {
+        setModal(true);
+    };
+    const closeModal = () => {
+        setModal(false);
+    }
+
+  const onChangeHandler = (e) =>{
+   setInput({...input, [e.target.id]: e.target.value})
+  }
+
+const onSubmit = async (e) => {
+    e.preventDefault();
+    setTweets();
+
+ try{
+    await axios
+    .post("http://localhost:8000/api/createTweet", input)
+    .then((res) =>{
+
+        console.log(res.data);
+       
+        
+        alert("You have successfully added a new tweet!")
+    });
+} catch (err) {
+
+}
+
+};
+
+const getTweet =  () =>{ 
+    try{
+         axios.get("http://localhost:8000/api/getAllTweet")
+        .then((res) => {
+            setTweets(res.data.tweet);
+            console.log(res.data, 'error')
+        })
+    } catch (err) {}
+ };
+
+ useEffect(getTweet, []);
+
+//console.log(tweets?.map((item) => item.tweet))
 
   return (
     <div className="flex w-full h-full bg-black">
@@ -74,14 +126,84 @@ import {CiCircleMore} from 'react-icons/ci';
                     <li><a href="Following" className="text-white text-[25px] w-[50%] ml-[20rem] font-light list-none">Following</a></li>
                 </span>
             </header>
-            <main className="z-0">
-                <textarea placeholder="What's happening?...." className="bg-slate-800 w-full h-1/2 text-slate-400 font-medium text-center text-2xl pt-6">
+           <div>
+            <span className="flex">
+                <img src={profile} alt="" className="w-[3vw] h-[6vh] rounded-full my-1 mx-1" />
+                <button onClick={openModal} className="bg-black text-blue-600 flex mt-5 border text-lg  border-slate-400 rounded-[20px] w-[10vw] h-[4vh] mx-1 my-1 font-medium"> <MdOutlineKeyboardArrowDown className="text-blue-600 text-lg"/>Everyone
+                </button>
+            </span>
+      
 
-                </textarea>
-            </main>
-            <button>Tweet</button>
+           <Modal
+         style={{
+          overlay:{
+            position: "fixed",
+            top: "0%",
+            left: "0%",
+            right:"0%",
+            bottom: "0%",
+            backgroundColor: "#00000078",
+            zIndex: 100,
+        },
+    }}
+    className="absolute top-[100px] mx-4 rounded-[5px] lg:top-auto mt-[20vh] left-0 lg:left-[32%] lg:right-[35%] justify-between right-0 h-auto pb-12 overflow-y-auto overflow-auto bg-black z-50 outline-none border-0 flex flex-col shadow-[5px_5px_30px_0px #00000040]"
+    isOpen={modal}
+    shouldCloseOnOverlayclick={true}
+    onRequestClose={closeModal}
+    ariaHideApp={false}
+    >
 
-        </div>
+    <div className="rounded-[30px]"> 
+        <form className="bg-slate-900 w-[15vw] h-[20vh] rounded-[20px] border border-slate-500"> 
+            <h1 className="text-white font-bold text-xl justify-center py-3 px-3">Choose audience</h1>
+            <div className="gap-4">
+              <span className="flex">
+               <AiFillCodepenCircle  className="text-blue-500 w-[4vw] h-[6vh] font-bold"/> 
+               <p className="text-white font-bold text-lg">Everyone</p>
+              </span>
+              <div className="flex">
+                 <RiGroup2Fill    className="text-blue-500 w-[4vw] h-[6vh] font-bold"/>
+                 <span className="gap-1">
+                 <p className="text-white font-bold text-lg">Twitter Circle</p>
+                 <p className="text-white font-bold">0<a href="#" className="text-slate-500 font-light">People</a>Edit</p>
+                 </span>
+                </div>
+            </div>
+           
+      </form>
+    </div>
+    </Modal>
+    <div>
+       <form onSubmit={onSubmit} className="w-full h-20 text-slate-300 bg-black font-medium text-xl px-8 py-3" placeholder="">
+        <input type="text"
+        id="tweet"
+        value={input.text}
+        onChange={onChangeHandler}
+         placeholder="What's happening?" 
+         className="w-full justify-center h-[10vh] bg-black border border-black " />
+
+       <button className="bg-blue-500 text-white font-medium w-[8vw] h-[4vh] ml-[30rem] rounded-full">Tweet</button>
+       </form>
+    </div>
+    
+    
+    <hr />
+    <div className="flex pt-8 gap-4 flex-col">
+        {tweets?.map((tweet) => (
+            <div key={tweet.id} className="text-white">
+                {tweet.tweet} <br />
+                {tweet.date}
+
+                <hr />
+            </div>
+        ))}
+
+    </div>
+     <hr />
+     </div>
+
+
+     </div>
 
         <div className="w-[35%] h-full">
             <div className="ml-[5rem] my-[1rem]">
@@ -109,7 +231,7 @@ import {CiCircleMore} from 'react-icons/ci';
                <span>
                  <a href="href" className="text-[#bcbcbc] font-medium text-[20px] px-4">Sports.Trending</a>
                  <a href="href" className="text-[#bcbcbc] font-medium text-[30px] pl-[13rem]">...</a> <br />
-                 <a  href="href" className="text-white font-bold text-[20px] px-4">Martial</a>
+                 <a  href="href" className="text-white font-bold text-[20px] px-4">Martial</a> 
                 <p className="text-[#bcbcbc] text-[17px] px-4">14.5k Tweets</p>
                </span>
 
@@ -131,7 +253,7 @@ import {CiCircleMore} from 'react-icons/ci';
                  <a href="href" className="text-[#bcbcbc] font-medium text-[20px] px-4">Sports.Trending</a>
                  <a href="href" className="text-[#bcbcbc] font-medium text-[30px] pl-[13rem]">...</a> <br />
                  <a  href="href" className="text-white font-bold text-[20px] px-4">Martial</a>
-                <p className="text-[#bcbcbc] text-[17px] px-4">14.5k Tweets</p>
+                <p className="text-[#bcbcbc] text-[17px] px-4">14.5k Tweets</p> 
                </span>
             </div>
 

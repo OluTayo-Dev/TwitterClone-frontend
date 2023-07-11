@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import  BiArrowBack from "react-icons/bi";
+import  {BiArrowBack} from "react-icons/bi";
 
 
 function ConditionalRenderingForm() {

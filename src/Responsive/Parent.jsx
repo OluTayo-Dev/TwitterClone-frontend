@@ -9,9 +9,16 @@ import brad2 from '../Asset/brad2.png';
 import bradFacebook from '../Asset/bradFacebook.png';
 import bradInstagram from '../Asset/bradInstagram.png';
 import bradPinterest from '../Asset/bradPinterest.png';
+import { useState} from "react";
+import '../App.css';
 
 
 export default function Parent() {
+    const [toggle, setToggle] =useState(false);
+
+    const HandleClick = (e) =>{
+        setToggle(e.target.value)
+    }
 
   return (
     <div>
@@ -37,7 +44,7 @@ export default function Parent() {
                 </button>
         </div> 
         <div className="md:hidden">
-            <div id="menu" className=" abosolute flex flex-col items-center hidden self-end  py-8 mt-10 space-y-6 font-bold bg-white sm:w-auto sm:self-center left-6 right-6 drop-shadow-md">
+            <div id="menu" onClick={HandleClick} className=" abosolute flex flex-col items-center hidden self-end  py-8 mt-10 space-y-6 font-bold bg-white sm:w-auto sm:self-center left-6 right-6 drop-shadow-md">
                 <a href="#">Pricing</a>
                 <a href="#">Products</a>
                 <a href="#">About Us</a>
